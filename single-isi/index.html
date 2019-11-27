@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ISI Drawer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section style="height: 500px; border: 1px solid pink"></section>
+    <section style="height: 1000px; border: 1px solid yellow"></section>
+    <section data-component="isi" data-isi-full-collapse="true">
+        <div data-isi-header>
+            <h2>Important Safety Information</h2>
+            <button data-isi-btn
+                    aria-expanded="false" 
+                    aria-label="Important Safety Information Toggle"
+                    aria-controls="isi-content">
+                    +
+            </button>
+        </div>
+        <div data-isi-content id="isi-content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Curabitur vitae nunc sed velit dignissim sodales ut. Gravida quis blandit turpis cursus in. Ac placerat vestibulum lectus mauris. Ut placerat orci nulla pellentesque dignissim. Tristique sollicitudin nibh sit amet commodo nulla. Egestas sed sed risus pretium quam vulputate dignissim suspendisse in. Nulla posuere sollicitudin aliquam ultrices sagittis orci a. Hendrerit dolor magna eget est lorem ipsum dolor sit amet. Risus in hendrerit gravida rutrum quisque non tellus orci. Pretium fusce id velit ut tortor pretium viverra suspendisse. Orci sagittis eu volutpat odio facilisis mauris sit amet. Lorem mollis aliquam ut porttitor leo a diam sollicitudin. Pellentesque eu tincidunt tortor aliquam nulla facilisi. Et leo duis ut diam. Congue nisi vitae suscipit tellus mauris a diam maecenas. Urna cursus eget nunc scelerisque viverra. Fames ac turpis egestas maecenas pharetra. Eget mi proin sed libero enim sed.</p>
+        
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Curabitur vitae nunc sed velit dignissim sodales ut. Gravida quis blandit turpis cursus in. Ac placerat vestibulum lectus mauris. Ut placerat orci nulla pellentesque dignissim. Tristique sollicitudin nibh sit amet commodo nulla. Egestas sed sed risus pretium quam vulputate dignissim suspendisse in. Nulla posuere sollicitudin aliquam ultrices sagittis orci a. Hendrerit dolor magna eget est lorem ipsum dolor sit amet. Risus in hendrerit gravida rutrum quisque non tellus orci. Pretium fusce id velit ut tortor pretium viverra suspendisse. Orci sagittis eu volutpat odio facilisis mauris sit amet. Lorem mollis aliquam ut porttitor leo a diam sollicitudin. Pellentesque eu tincidunt tortor aliquam nulla facilisi. Et leo duis ut diam. <a href="#">test link</a> Congue nisi vitae suscipit tellus mauris a diam maecenas. Urna cursus eget nunc scelerisque viverra. Fames ac turpis egestas maecenas pharetra. Eget mi proin sed libero enim sed.</p>
+            
+        </div>
+    </section>
+    <footer style="height: 500px"><a href="#">TEST</a></footer>
+    <script src="../body-lock/script.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

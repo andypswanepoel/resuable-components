@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, red, blue);
+}
+
+[data-component="isi"][data-isi-fixed] {
+    border-top: 1px solid black;
+    background: rgb(212, 182, 182);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    max-height: 150px;
+}
+
+[data-component="isi"][aria-expanded="true"] {
+    max-height: 100%;
+    overflow: auto;
+}
+
+[data-isi-btn] {
+    display: none;
+}
+
+[data-isi-fixed] [data-isi-btn] {
+    display: block;
+}
+
+[data-isi-header] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+[data-isi-btn]:focus {
+    outline: 2px solid blue;
+}
+
+
+
