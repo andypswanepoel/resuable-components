@@ -17,8 +17,8 @@ Include quickstart instructions here.
 ## Component States
 In this section, you list all the states a component can be in.
 eg:
-- AccordionExpanded
-- AccordionCollapsed
+- TabSelected
+- TabNotSelected
 
 ## Component HTML
 
