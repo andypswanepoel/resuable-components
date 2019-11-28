@@ -5,6 +5,7 @@
 const isiDrawer = (function(el_root) {
 
     var hooks = {},
+        config,
         isiDrawerHt, //define height first. Needs to be global as when it is hidden, we need to have access to the old height
         initPos = window.scrollY; //To do: collapse the ISI depending on configs
 
@@ -15,6 +16,7 @@ const isiDrawer = (function(el_root) {
         // Afterinit then removes the drawer display
         hooks.beforeInit(el_root.querySelector("[data-component=isi]"));
         isiDrawerHt = el_root.querySelector("[data-component=isi][data-isi-fixed]").offsetHeight;
+        config = _getConfig(el_root.querySelector("[data-component=isi]"));
         hooks.afterInit(el_root.querySelector("[data-component=isi]"));
     }
 
@@ -66,7 +68,7 @@ const isiDrawer = (function(el_root) {
     const _bindEvents = function() {
         el_root.addEventListener("click", clickHandler, false);
         el_root.addEventListener("scroll", isiScrollHandler, false); 
-        ["scroll", "resize", "DOMContentLoaded"].forEach(function(ev) {window.addEventListener(ev, isiVisHandler, false)}) // This event listener determines when the ISI should act as a drawer
+        ["scroll", "resize", "load"].forEach(function(ev) {window.addEventListener(ev, isiVisHandler, false)}) // This event listener determines when the ISI should act as a drawer
 
     };
 
@@ -82,7 +84,6 @@ const isiDrawer = (function(el_root) {
     // Scroll handler to collapse ISI when scrolled the pixel limit
     const isiScrollHandler = function(event) {
         const element = el_root.querySelector("[data-component=isi]");
-        const config = _getConfig(element);
         const limit = 50;
         
         curPos = window.scrollY;
@@ -104,7 +105,6 @@ const isiDrawer = (function(el_root) {
 
     const toggle = function(element) {
 			hooks.beforeToggle();
-			const config = _getConfig(element);
       element.getAttribute("aria-expanded") === "false" ? expand(element, config) : collapse(element, config);
 			hooks.afterToggle();
     }
@@ -117,7 +117,6 @@ const isiDrawer = (function(el_root) {
         if (config.full_screen === "false") {
             element.style.maxHeight = "50%";
         }
-        element.querySelector("[data-isi-btn]").innerHTML = "-"
         element.querySelector("[data-isi-btn]").setAttribute("aria-expanded", "true");
         element.setAttribute("aria-expanded", "true");
 				element.querySelector("[data-isi-content]").removeAttribute("aria-hidden");
@@ -135,7 +134,6 @@ const isiDrawer = (function(el_root) {
         if (config.full_screen === "false") {
             element.style.maxHeight = "";
         }
-        element.querySelector("[data-isi-btn]").innerHTML = "+"
         element.querySelector("[data-isi-btn]").setAttribute("aria-expanded", "false");
         element.setAttribute("aria-expanded", "false");
 				element.querySelector("[data-isi-content]").setAttribute("aria-hidden", "true");
@@ -161,7 +159,7 @@ const isiDrawer = (function(el_root) {
 
     const applyShow = function(element) {
       element.setAttribute("data-isi-fixed", "")
-      element.setAttribute("aria-expanded", isiExpanded(element.querySelector("[data-isi-btn]"))); // I have left this in for cases were we don't want to lock the page on expand; allows us to retain the state
+      element.setAttribute("aria-expanded", "false"); 
       element.querySelector("[data-isi-content]").setAttribute("aria-hidden", !isiExpanded(element.querySelector("[data-isi-btn]"))); // I have left this in for cases were we don't want to lock the page on expand; allows us to retain the state
       element.querySelector("[data-isi-btn]").removeAttribute("hidden");
       element.style.maxHeight = isiDrawerHt + "px";
@@ -269,6 +267,7 @@ const isiDrawer = (function(el_root) {
         "beforeInit" : show,
         "afterInit" : hide,
         "afterShow" : removeTabbing,
+        "beforeHide" : bodyLock.unlock,
         "afterHide" : addTabbing,
         "beforeExpand" : bodyLock.lock,
         "afterExpand" : addTabbing,

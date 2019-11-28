@@ -26,6 +26,13 @@ body {
     display: block;
 }
 
+[data-component="isi"] [data-isi-btn]::after {
+    content: "+"
+}
+[data-component="isi"][aria-expanded="true"] [data-isi-btn]::after {
+    content: "-"
+}
+
 [data-isi-header] {
     display: flex;
     align-items: center;
@@ -35,6 +42,7 @@ body {
 [data-isi-btn]:focus {
     outline: 2px solid blue;
 }
+
 
 
 
