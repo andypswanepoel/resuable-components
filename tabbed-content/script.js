@@ -120,6 +120,7 @@ const tabbedContent = (function(el_root) {
 
     const changeTab = function(el, config) {
         const el_tabs = el.closest("[role=tablist]").querySelectorAll("[data-tab]");
+        config = config !== undefined ? config : _getButtonConfig(el);
         // Deselect all tabs
         [].forEach.call(el_tabs, function(tab) {
           _removeClasses(tab, config.class_selected)
@@ -216,7 +217,7 @@ const tabbedContent = (function(el_root) {
           class_selected: _getAttribute(el_component, "data-classnames-selected", {
             default: "selected"
           }),
-          class_not_selected: _getAttribute(el_component, "data-classnames-collapsed", {
+          class_not_selected: _getAttribute(el_component, "data-classnames-not-selected", {
               default: "not-selected"
             }
           )
@@ -225,7 +226,6 @@ const tabbedContent = (function(el_root) {
 
     const _getButtonConfig = function(element) {
       var component_group = element.getAttribute("data-tab-group");
-      console.log(component_group)
       var el_component = el_root.querySelector(
         "[data-component=tabbed-content][id=tabbed-content-" +
           component_group +

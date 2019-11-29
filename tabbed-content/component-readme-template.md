@@ -87,14 +87,16 @@ If the tabs stack on mobile widths, the controls are:
 ## Possible Configurations
 
 **Component Configs**
-The following data-attributes can be added at the component level:
-- autoinit: if set to "false", the tabbed content will not initialize. If nothing is provided, the tabbed content will initialize.
-- initial-tab: the value provided will be the initially opened tab. Tab values will be on a zero-based index. If nothing is provided, the first tab will be opened.
-- mobile-stack: if set to "true", the tabs will be controlled by up and down keys vs left and right on smaller screens (<768px). If nothing is provided, the tabs will always be controlled with left and right keys. The actual visual stacking will be controlled by CSS.
+The following configurations can be added as data attributes at the component level:
+- data-autoinit: if set to "false", the tabbed content will not initialize. If nothing is provided, the tabbed content will initialize.
+- data-initial-tab: the value provided will be the initially opened tab. Tab values will be on a zero-based index. If nothing is provided, the first tab will be opened.
+- data-mobile-stack: if set to "true", the tabs will be controlled by up and down keys vs left and right on smaller screens (<768px). If nothing is provided, the tabs will always be controlled with left and right keys. The actual visual stacking will be controlled by CSS.
+- data-classnames-selected: class names to be added when the tab is selected. If nothing is added, default will be "selected".
+- data-classnames-not-selected: class names to be added when the tab is not selected. If nothing is added, default will be "not-selected".
 
 **Tab Configs**
 The following data-attributes can be added at the panel level:
-- tab-name: String value which is provided to the tab. If nothing is provided, the tab witll be named with it's ID.
+- data-tab-name: String value which is provided to the tab. If nothing is provided, the tab witll be named with it's ID.
 
 
 ## Emitted Events
@@ -124,7 +126,6 @@ No hooks at present time.
 ## Javascript API
 
 Work in Progress
-
 
 **tab.changeTab(el_tab)**
 This will change the selected tab.
