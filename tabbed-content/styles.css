@@ -10,3 +10,13 @@ ul {
     margin-top: 20px;
     padding: 10px;
 }
+
+[aria-selected="true"] {
+    background: rgb(133, 252, 236);
+}
+
+@media (max-width: 768px) {
+    [data-mobile-stack="true"] ul {
+        flex-direction: column;
+    }
+}

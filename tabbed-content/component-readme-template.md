@@ -17,8 +17,8 @@ Include quickstart instructions here.
 ## Component States
 In this section, you list all the states a component can be in.
 eg:
-- TabSelected
-- TabNotSelected
+- TabSelected --> [aria-select="true"]
+- TabNotSelected --> [aria-select="false"]
 
 ## Component HTML
 
@@ -47,7 +47,8 @@ Minimum HTML needed for two tabs
 
 **Output HTML**
 
-If the JS transforms the HTML on the page, perhaps to automatically add things to meet accessibility requirements or add things like custom scrollbars, include the transformed state here.
+If JS is not enabled, the content will display as it is in the Input HTML.
+If JS is enabled, the tabs will be initialized by adding various accessibility attributes and button elements to control the tabs.
 
 ```
 <div data-component="tabbed-content" id="tabbed-content-0">
@@ -66,6 +67,34 @@ If the JS transforms the HTML on the page, perhaps to automatically add things t
       </div>
   </div>
   ```
+
+
+## Keyboard Controls 
+
+The tabs can be fully controlled with keyboard. 
+
+The default controls are:
+- Left to change to the next tab
+- Right to change to the previous tab
+- Down or Tab to focus on the panel content 
+
+If the tabs stack on mobile widths, the controls are:
+- Down to change to the next tab
+- Up to change to the previous tab
+- Tab to focus on the panel content
+
+
+## Possible Configurations
+
+**Component Configs**
+The following data-attributes can be added at the component level:
+- autoinit: if set to "false", the tabbed content will not initialize. If nothing is provided, the tabbed content will initialize.
+- initial-tab: the value provided will be the initially opened tab. Tab values will be on a zero-based index. If nothing is provided, the first tab will be opened.
+- mobile-stack: if set to "true", the tabs will be controlled by up and down keys vs left and right on smaller screens (<768px). If nothing is provided, the tabs will always be controlled with left and right keys. The actual visual stacking will be controlled by CSS.
+
+**Tab Configs**
+The following data-attributes can be added at the panel level:
+- tab-name: String value which is provided to the tab. If nothing is provided, the tab witll be named with it's ID.
 
 
 ## Emitted Events
@@ -98,6 +127,6 @@ Work in Progress
 
 
 **tab.changeTab(el_tab)**
-This will change the selected tab
+This will change the selected tab.
 
 ...

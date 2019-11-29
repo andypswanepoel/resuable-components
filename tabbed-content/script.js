@@ -39,6 +39,7 @@ const tabbedContent = (function(el_root) {
             el_tabpanel.setAttribute("hidden", "")
             if (j === openTab){
                 el_tabpanel.removeAttribute("hidden")
+                el_tabpanel.setAttribute("tabindex", "0");
             } 
 
             // Create the list item and the button corresponding to each tab
@@ -88,14 +89,31 @@ const tabbedContent = (function(el_root) {
         }
         // Gets list of tabs in each module
         // Finds the index of the current button
+        const el_component = el_tab.closest("[data-component=tabbed-content]");
         const el_tabs = el_tab.closest("[role=tablist]").querySelectorAll("[data-tab]")
         const index = [].slice.call(el_tabs).indexOf(el_tab);
 
-        const el_new_tab = ev.keyCode === 37 ? el_tabs[index - 1] : ev.keyCode === 39 ? el_tabs[index + 1] : null
-        
+        const key = ev.keyCode === 37 ? "left" : ev.keyCode === 39 ? "right" :  ev.keyCode === 38 ? "up" : ev.keyCode === 40 ? "down" : null;
+        const deviceWidth = window.innerWidth >= 768 ? "desktop" : "mobile"
+        let el_new_tab
+
+        // If the device is <768px wide and mobile stack is on, controls are with up and down keys
+        if (el_component.getAttribute("data-mobile-stack") === "true" && deviceWidth === "mobile") {
+            el_new_tab = key === "up" ? el_tabs[index - 1] : key === "down" ? el_tabs[index + 1] : null
+        } else {
+            el_new_tab = key === "left" ? el_tabs[index - 1] : key === "right" ? el_tabs[index + 1] : null
+        }
+
         if (el_new_tab != undefined || null) {
             el_new_tab.focus();
             changeTab(el_new_tab)
+        }
+        
+        // Not sure if this is a good idea. Need to talk to Kelly. On desktop will allow pressing the down key to focus
+        if ((el_component.getAttribute("data-mobile-stack") === "true" && deviceWidth !== "mobile"
+            || el_component.getAttribute("data-mobile-stack") !== "true")
+            && key === "down" ){
+            focusPanel(el_tab)
         }
     }
 
@@ -117,11 +135,21 @@ const tabbedContent = (function(el_root) {
         // From the new tab, find the panel it controls through the aria controls attribute
         const el_tabpanel_id = el.getAttribute("aria-controls");
         const el_tabpanel = el_root.getElementById(el_tabpanel_id)
-        const el_tabpanels = childrenMatches(el_tabpanel.parentElement, "[data-tab-panel");
+        const el_tabpanels = childrenMatches(el_tabpanel.parentElement, "[data-tab-panel]");
         [].forEach.call(el_tabpanels, function(tabpanel) {
             tabpanel.setAttribute("hidden", "");
+            tabpanel.removeAttribute("tabindex");
         })
         el_tabpanel.removeAttribute("hidden");
+        el_tabpanel.setAttribute("tabindex", "0");
+    }
+
+    const focusPanel = function(el) {
+        // Focus on the panel
+        const el_tabpanel_id = el.getAttribute("aria-controls");
+        const el_tabpanel = el_root.getElementById(el_tabpanel_id);
+        el_tabpanel.focus();
+        
     }
 
     
