@@ -76,7 +76,7 @@ The following configurations can be added as data attributes at the component le
 
 ## Emitted Events
 
-The tabbed content will emit the following custom events:
+The header element will emit the following custom events:
 
   - `headerToggle` is emitted whebn the header's display state is toggled.
   - `headerHide` is emitted when the header is hidden.
@@ -87,7 +87,7 @@ The `event.detail` object includes the DOM element for the trigger (`event.detai
 
 ## Initialization Hooks
 
-The following hooks are available to use on the tabs. 
+The following hooks are available to use on the header. 
 
 **beforeInit(el_component, config)**
 Runs before the component is initiallized.
@@ -123,7 +123,7 @@ This will show the header component.
 This will hide the header component.
 
 **header.defineHooks({custom_hooks})**
-This can be used to pass the custom hooks to the tab component.
+This can be used to pass the custom hooks to the header component.
 
 
 
