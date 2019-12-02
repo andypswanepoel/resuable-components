@@ -77,7 +77,8 @@ body {
 
 ## Possible Configurations
 
-**Component Configs**
+**Component Configs** 
+
 The following configurations can be added as data attributes at the component level:
 - data-autohide: If set to "true", the header will hide when the user scrolls down the page. If set to "true", the header will persist on the page. 
 - data-autohide-amount: The value provided determines how much the user needs to scroll before the header will hide/show.
