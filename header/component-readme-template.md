@@ -43,6 +43,16 @@ Minimum HTML needed for the header
 </header>
 ```
 
+**Output HTML**
+
+JS will add one data-attribute to the header element: [data-header-hidden].
+
+```
+<header data-component="header" data-header-hidden="false">
+  // Header content
+</header>
+```
+
 ## CSS
 
 ```
