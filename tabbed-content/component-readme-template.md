@@ -68,6 +68,10 @@ If JS is enabled, the tabs will be initialized by adding various accessibility a
   </div>
   ```
 
+## CSS
+
+There is no required CSS for the tabs to work. However, for the controls to accurately reflect the layout, the tab buttons should be in a horizontal row.
+If they are to be stacked on Mobile devices, this will need to be controlled by CSS.
 
 ## Keyboard Controls 
 
@@ -89,21 +93,18 @@ If the tabs stack on mobile widths, the controls are:
 **Component Configs**
 The following configurations can be added as data attributes at the component level:
 - data-autoinit: if set to "false", the tabbed content will not initialize. If nothing is provided, the tabbed content will initialize.
-- data-initial-tab: the value provided will be the initially opened tab. Tab values will be on a zero-based index. If nothing is provided, the first tab will be opened.
-- data-mobile-stack: if set to "true", the tabs will be controlled by up and down keys vs left and right on smaller screens (<768px). If nothing is provided, the tabs will always be controlled with left and right keys. The actual visual stacking will be controlled by CSS.
+- data-tab-mobile-stack: if set to "true", the tabs will be controlled by up and down keys vs left and right on smaller screens (<768px). If nothing is provided, the tabs will always be controlled with left and right keys. The actual visual stacking will be controlled by CSS.
+- data-tab-mobile-width: set a value at which your mobile breakpoint will occur. This should be used combination with the [data-tab-mobile-stack] attribute. Default will be 768px
 - data-classnames-selected: class names to be added when the tab is selected. If nothing is added, default will be "selected".
-- data-classnames-not-selected: class names to be added when the tab is not selected. If nothing is added, default will be "not-selected".
+- data-classnames-unselected: class names to be added when the tab is not selected. If nothing is added, default will be "unselected".
 
 **Tab Configs**
 The following data-attributes can be added at the panel level:
-- data-tab-name: String value which is provided to the tab. If nothing is provided, the tab witll be named with it's ID.
+- data-tab-name: String value which is provided to the tab. If nothing is provided, the tab will be named "Tab X"
+- data-default-state:  set to "selected" on the tab which should be initially selected. If none or more than one have this set to selected, it will default to set the first tab as initially selected.
 
 
 ## Emitted Events
-
-Work in Progress
-
-No events in the code at present time.
 
 The tabbed content will emit the following custom events:
 
@@ -111,23 +112,39 @@ The tabbed content will emit the following custom events:
 
 The `event.detail` object includes the DOM element for the trigger (`event.detail.button`) and the configuration of the parent component (`event.detail.component_config`).
 
-Event names should use the pattern `[component type][action]`.
-
 
 ## Initialization Hooks
 
-Work in Progress
+The following hooks are available to use on the tabs. 
 
-You can provide custom code to run at various times during the tabbed contents's lifecycle.
+**beforeInit(el_component, config)**
+Runs before each component is initiallized.
 
-No hooks at present time.
+**afterInit(el_component, config)**
+Runs after each component is initiallized.
+
+**beforeSelect(el_tab, config)**
+Runs before a new tab is selected.
+
+**afterInit(el_tab, config)**
+Runs after a new tab is selected
 
 
 ## Javascript API
 
-Work in Progress
 
-**tab.changeTab(el_tab)**
+**tab.select(el_tab)**
 This will change the selected tab.
+
+**tab.initAll(el_tab)**
+This will initialize the tab provided through the function.
+
+**tab.initAll()**
+This will initialize all the tabs that are not initialized. The use case would be when a tab section does not need to be initialized on load and we want to delay 
+
+**tab.defineHooks({custom_hooks})**
+This can be used to pass the custom hooks to the tab component.
+
+
 
 ...
