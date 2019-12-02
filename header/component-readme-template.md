@@ -26,7 +26,7 @@ Tabbing focus to any element in the header will show the header.
 The header can be in the following states:
 
 - HeaderHidden 
-- HeaderShow 
+- HeaderShown 
 
 ## Component HTML
 
