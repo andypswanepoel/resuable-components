@@ -23,14 +23,14 @@ Tabbing focus to any element in the header will show the header.
 
 
 ## Component States
-In this section, you list all the states a component can be in.
+The header can be in the following states:
 
 - HeaderHidden 
 - HeaderShow 
 
 ## Component HTML
 
-What HTML should I add to the page
+What HTML should I add to the page:
 
 
 **Input HTML**
@@ -71,8 +71,7 @@ body {
 The following configurations can be added as data attributes at the component level:
 - data-autohide: If set to "true", the header will hide when the user scrolls down the page. If set to "true", the header will persist on the page. 
 - data-autohide-amount: The value provided determines how much the user needs to scroll before the header will hide/show.
-- data-classnames-selected: class names to be added when the tab is selected. If nothing is added, default will be "selected".
-- data-classnames-unselected: class names to be added when the tab is not selected. If nothing is added, default will be "unselected".
+- data-classnames-hidden: class names to be added to the header when it is hidden. Default: "is-hidden"
 
 
 ## Emitted Events
