@@ -126,7 +126,7 @@ Runs after each component is initiallized.
 **beforeSelect(el_tab, config)**
 Runs before a new tab is selected.
 
-**afterInit(el_tab, config)**
+**afterSelect(el_tab, config)**
 Runs after a new tab is selected
 
 
