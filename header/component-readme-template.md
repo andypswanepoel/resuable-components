@@ -82,7 +82,11 @@ body {
 The following configurations can be added as data attributes at the component level:
 - data-autohide: If set to "true", the header will hide when the user scrolls down the page. If set to "true", the header will persist on the page. 
 - data-autohide-amount: The value provided determines how much the user needs to scroll before the header will hide/show.
+- data-autohide-partial: If this is set to true, the header will collapse so that only the navigation area is visible. 
 - data-classnames-hidden: class names to be added to the header when it is hidden. Default: "is-hidden"
+
+User settings:
+- prefers-reduced-motion: if the user has this set to true on their device, the header will not collapse.
 
 
 ## Emitted Events
