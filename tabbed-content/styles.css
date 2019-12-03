@@ -15,8 +15,8 @@ ul {
     background: rgb(133, 252, 236);
 }
 
-@media (max-width: 768px) {
-    [data-mobile-stack="true"] ul {
+@media (max-width: 660px) {
+    [data-tab-mobile-stack="true"] ul {
         flex-direction: column;
     }
 }

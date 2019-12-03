@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div data-component="tabbed-content" data-initial-tab="1">
-    <div data-tab-panel data-tab-name="Tab 1">
+  <div data-component="tabbed-content">
+    <div data-tab-panel data-tab-name="Tab 1" >
         <h2>Content Header 1</h2>
         <p>Content text 1.</p>
       </div>
@@ -34,7 +34,7 @@
         <h2>Content Header 2</h2>
         <p>Content text 2.</p>
       </div>
-      <div data-tab-panel data-tab-name="Tab 3">
+      <div data-tab-panel data-tab-name="Tab 3" data-default-state="selected">
         <h2>Content Header 3</h2>
         <p>Content text 3. <a href="#">link</a></p>
       </div>
@@ -54,16 +54,17 @@
         <h2>Content Header 3</h2>
         <p>Content text 3. <a href="#">link</a></p>
 
-        <div data-component="tabbed-content" data-mobile-stack="true">
+        <div data-component="tabbed-content" data-tab-mobile-stack="true" data-tab-mobile-width="660">
           <div data-tab-panel data-tab-name="Tab 1">
               <h2>Content Header 1</h2>
               <p>Content text 1.</p>
             </div>
           
-            <div data-tab-panel data-tab-name="Tab 2">
+            <div data-tab-panel data-tab-name="Tab 2" data-default-state="selected">
               <h2>Content Header 2</h2>
               <p>Content text 2.</p>
             </div>
+
             <div data-tab-panel data-tab-name="Tab 3">
               <h2>Content Header 3</h2>
               <p>Content text 3.</p>
