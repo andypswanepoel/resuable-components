@@ -136,7 +136,7 @@ Runs after a new tab is selected
 **tab.select(el_tab)**
 This will change the selected tab.
 
-**tab.initAll(el_tab)**
+**tab.initTab(el_tab)**
 This will initialize the tab provided through the function.
 
 **tab.initAll()**
