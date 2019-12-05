@@ -5,73 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tabbed Content</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tabs.css">
 </head>
 <body>
-  <div data-component="tabbed-content">
-    <div data-tab-panel data-tab-name="Tab 1" >
+  <div data-component="tab">
+    <div data-panel data-tab-name="Tab 1" >
         <h2>Content Header 1</h2>
         <p>Content text 1.</p>
       </div>
     
-      <div data-tab-panel data-tab-name="Tab 2">
+      <div data-panel data-tab-name="Tab 2">
         <h2>Content Header 2</h2>
         <p>Content text 2.</p>
       </div>
-      <div data-tab-panel data-tab-name="Tab 3">
+      <div data-panel data-tab-name="Tab 3">
         <h2>Content Header 3</h2>
         <p>Content text 3. <a href="#">link</a></p>
       </div>
   </div>
 
-  <div data-component="tabbed-content" data-autoinit="false">
-    <div data-tab-panel data-tab-name="Tab 1">
+  <div data-component="tab" data-autoinit="false">
+    <div data-panel data-tab-name="Tab 1">
         <h2>Content Header 1</h2>
         <p>Content text 1.</p>
       </div>
     
-      <div data-tab-panel data-tab-name="Tab 2">
+      <div data-panel data-tab-name="Tab 2">
         <h2>Content Header 2</h2>
         <p>Content text 2.</p>
       </div>
-      <div data-tab-panel data-tab-name="Tab 3" data-default-state="selected">
+      <div data-panel data-tab-name="Tab 3" data-default-state="selected">
         <h2>Content Header 3</h2>
         <p>Content text 3. <a href="#">link</a></p>
       </div>
   </div>
   
-  <div data-component="tabbed-content">
-    <div data-tab-panel data-tab-name="Tab 1">
+  <div data-component="tab">
+    <div data-panel data-tab-name="Tab 1">
         <h2>Content Header 1</h2>
         <p>Content text 1.</p>
       </div>
     
-      <div data-tab-panel data-tab-name="Tab 2">
+      <div data-panel data-tab-name="Tab 2">
         <h2>Content Header 2</h2>
         <p>Content text 2.</p>
       </div>
-      <div data-tab-panel data-tab-name="Tab 3">
+      <div data-panel data-tab-name="Tab 3">
         <h2>Content Header 3</h2>
         <p>Content text 3. <a href="#">link</a></p>
 
-        <div data-component="tabbed-content" data-tab-mobile-stack="true" data-tab-mobile-width="660">
-          <div data-tab-panel data-tab-name="Tab 1">
+        <div data-component="tab" data-tab-mobile-stack="true" data-tab-mobile-width="660">
+          <div data-panel data-tab-name="Tab 1">
               <h2>Content Header 1</h2>
               <p>Content text 1.</p>
             </div>
           
-            <div data-tab-panel data-tab-name="Tab 2" data-default-state="selected">
+            <div data-panel data-tab-name="Tab 2" data-default-state="selected">
               <h2>Content Header 2</h2>
               <p>Content text 2.</p>
             </div>
 
-            <div data-tab-panel data-tab-name="Tab 3">
+            <div data-panel data-tab-name="Tab 3">
               <h2>Content Header 3</h2>
               <p>Content text 3.</p>
             </div>
         </div>
       </div>
   </div>
-    <script src="script.js"></script>
+    <script src="tabs.shim.js"></script>
+    <script src="tabs.js"></script>
 </body>
 </html>

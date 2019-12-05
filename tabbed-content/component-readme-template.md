@@ -30,14 +30,14 @@ What HTML should I add to the page
 Minimum HTML needed for two tabs
 
 ```
-<div data-component="tabbed-content">
+<div data-component="tab">
 
-  <div data-tab-panel data-tab-name="Tab 1">
+  <div data-panel data-tab-name="Tab 1">
     <h2>Content Header 1</h2>
     <p>Content text 1.</p>
   </div>
 
-  <div data-tab-panel data-tab-name="Tab 2">
+  <div data-panel data-tab-name="Tab 2">
     <h2>Content Header 2</h2>
     <p>Content text 2.</p>
   </div>
@@ -51,17 +51,24 @@ If JS is not enabled, the content will display as it is in the Input HTML.
 If JS is enabled, the tabs will be initialized by adding various accessibility attributes and button elements to control the tabs.
 
 ```
-<div data-component="tabbed-content" id="tabbed-content-0">
+<div data-component="tab" id="tab-content-0" data-initialized="true">
   <ul role="tablist">
     <li>
-      <button id="tab-0-0" data-tab role="tab" aria-controls="tabpanel-0-0" aria-selected="false" tabindex="-1">Tab 1</button></li><li><button id="tab-0-1" data-tab="" role="tab" aria-controls="tabpanel-0-1" aria-selected="true">Tab 2</button>
+      <button id="tab-0-0" data-tab="" data-tab-group="0" role="tab" aria-controls="tabpanel-0-0" aria-selected="true" class="selected">
+        Tab 1
+      </button>
+    </li>
+    <li>
+      <button id="tab-0-1" data-tab data-tab-group="0" role="tab" aria-controls="tabpanel-0-1" aria-selected="false" tabindex="-1">
+        Tab 2
+      </button>
     </li>
     </ul>
-    <div data-tab-panel data-tab-name="Tab 1" id="tabpanel-0-0" role="tabpanel" aria-labelledby="tab-0-0" hidden>
+    <div data-tab-panel data-tab-name="Tab 1" id="tabpanel-0-0" role="tabpanel" aria-labelledby="tab-0-0">
         <h2>Content Header 1</h2>
         <p>Content text 1.</p>
       </div>
-      <div data-tab-panel data-tab-name="Tab 2" id="tabpanel-0-1" role="tabpanel" aria-labelledby="tab-0-1">
+      <div data-tab-panel data-tab-name="Tab 2" id="tabpanel-0-1" role="tabpanel" aria-labelledby="tab-0-1" hidden>
         <h2>Content Header 2</h2>
         <p>Content text 2.</p>
       </div>
@@ -130,8 +137,8 @@ Runs before a new tab is selected.
 Runs after a new tab is selected
 
 
-## Javascript API
 
+## Javascript API
 
 **tab.select(el_tab)**
 This will change the selected tab.

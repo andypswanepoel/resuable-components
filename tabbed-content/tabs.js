@@ -7,9 +7,10 @@ var tabbedContent = (function (el_root) {
   var hooks = {};
 
   var init = function () {
-    var el_components = el_root.querySelectorAll("[data-component=tabbed-content]");
-    [].forEach.call(el_components, function (el_component, i) {
 
+    var el_components = el_root.querySelectorAll("[data-component=tab]");
+    initComponents("[data-component]");
+    el_components.forEach(function (el_component, i) {
       var autoinit = _getAttribute(el_component, "data-autoinit", {
         default: "true",
         valid: ["true", "false"]
@@ -21,8 +22,41 @@ var tabbedContent = (function (el_root) {
     })
   }
 
+
+  const countParents = function(el, depth) {
+    if (el.parentNode === null) {
+      return depth;
+    } else {
+      depth++;
+      return countParents(el.parentNode, depth);
+    }
+  };
+
+  // Find all my panel elements and initialize with new attributes.
+  // Anything that looks like a child component element will be ignored.
+  var initComponents = function (selector) {
+    document.querySelectorAll(selector).forEach(function(el_component) {
+      var type = el_component.getAttribute("data-component");
+
+      ["panel"].forEach(function(attr) {
+        var els = el_component.querySelectorAll("[data-" + attr + "]");
+        if (els.length === 0) {
+          return
+        }
+        var depth = countParents(els[0], 0);
+        els.forEach(function(el) {
+          if (countParents(el, 0) === depth) {
+            el.removeAttribute(["data", attr].join("-"));
+            el.setAttribute(["data", attr, type].join("-"), "");
+          }
+        });
+      });
+    });
+  };
+
   var initAll = function () {
-    var el_components = el_root.querySelectorAll("[data-component=tabbed-content]");
+    initComponents("[data-component]");
+    var el_components = el_root.querySelectorAll("[data-component=tab]");
     el_components.forEach(function (el_component, i) {
       var initialized = _getAttribute(el_component, "data-initialized", {
         default: "false",
@@ -36,11 +70,11 @@ var tabbedContent = (function (el_root) {
 
   var initTab = function (el_component, i) {
     var config = _getConfig(el_component);
-    i = i !== undefined ? i : [].indexOf.call(el_root.querySelectorAll("[data-component=tabbed-content]"), el_component);
+    i = i !== undefined ? i : [].indexOf.call(el_root.querySelectorAll("[data-component=tab]"), el_component);
     hooks.beforeInit(el_component, config)
 
     // Add a unique id for each component 
-    el_component.setAttribute("id", "tabbed-content-" + i)
+    el_component.setAttribute("id", "tab-content-" + i)
     el_component.setAttribute("data-initialized", "true");
 
     //create the list that will store the buttons for each component
@@ -53,11 +87,11 @@ var tabbedContent = (function (el_root) {
     // Adds the appropriate accessibility labels and unique id for each panel
     // It based on the index of the panel in the component, and the index of the component itself
 
-    var el_tabpanels = el_component.querySelectorAll("[id^=tabbed-content-" + i + "] > [data-tab-panel]");
+    var el_tabpanels = el_component.querySelectorAll("[id^=tab-content-" + i + "] > [data-panel-tab]");
     var numSelected = [].filter.call(el_tabpanels, function (el_tabpanel) {
       return el_tabpanel.getAttribute("data-default-state") === "selected"
     }).length;
-    [].forEach.call(el_tabpanels, function (el_tabpanel, j) {
+    el_tabpanels.forEach(function (el_tabpanel, j) {
       el_tabpanel.setAttribute("id", "tabpanel-" + i + "-" + j)
       el_tabpanel.setAttribute("role", "tabpanel")
       el_tabpanel.setAttribute("aria-labelledby", "tab-" + i + "-" + j)
@@ -85,7 +119,7 @@ var tabbedContent = (function (el_root) {
       var listitem = el_root.createElement("li"),
         el_tab = el_root.createElement("button");
       el_tab.setAttribute("id", "tab-" + i + "-" + j);
-      el_tab.setAttribute("data-tab", "");
+      el_tab.setAttribute("data-trigger-tab", "");
       el_tab.setAttribute("data-tab-group", i);
       el_tab.setAttribute("role", "tab");
       el_tab.setAttribute("aria-controls", "tabpanel-" + i + "-" + j);
@@ -117,13 +151,13 @@ var tabbedContent = (function (el_root) {
     hooks.afterInit(el_component, config)
   }
 
-  var _bindEvents = function() {
+  var _bindEvents = function () {
     el_root.addEventListener("click", clickHandler, false);
     el_root.addEventListener("keydown", keyHandler, false);
   }
 
   var clickHandler = function (ev) {
-    var el_tab = ev.target.closest("[data-tab]");
+    var el_tab = ev.target.closest("[data-trigger-tab]");
     if (!el_tab) {
       return
     }
@@ -133,14 +167,14 @@ var tabbedContent = (function (el_root) {
   }
 
   var keyHandler = function (ev) {
-    var el_tab = ev.target.closest("[data-tab]")
+    var el_tab = ev.target.closest("[data-trigger-tab]")
     if (!el_tab) {
       return
     }
 
     // Gets list of tabs in each module
     // Finds the index of the current button
-    var el_tabs = el_tab.closest("[role=tablist]").querySelectorAll("[data-tab]"),
+    var el_tabs = el_tab.closest("[role=tablist]").querySelectorAll("[data-trigger-tab]"),
       index = [].slice.call(el_tabs).indexOf(el_tab),
       config = _getButtonConfig(el_tab),
       key = ev.keyCode === 37 ? "left" : ev.keyCode === 39 ? "right" : ev.keyCode === 38 ? "up" : ev.keyCode === 40 ? "down" : null,
@@ -186,11 +220,11 @@ var tabbedContent = (function (el_root) {
 
 
   var changeTab = function (el, config) {
-    var el_tabs = el.closest("[role=tablist]").querySelectorAll("[data-tab]");
+    var el_tabs = el.closest("[role=tablist]").querySelectorAll("[data-trigger-tab]");
     config = config !== undefined ? config : _getButtonConfig(el);
     hooks.beforeSelect(el, config);
     // Deselect all tabs
-    [].forEach.call(el_tabs, function (tab) {
+    el_tabs.forEach(function (tab) {
       deselectTabs(tab, config)
     })
     // Select the new tab
@@ -208,8 +242,8 @@ var tabbedContent = (function (el_root) {
     // From the new tab, find the panel it controls through the aria controls attribute
     var el_tabpanel_id = el.getAttribute("aria-controls"),
       el_tabpanel = el_root.getElementById(el_tabpanel_id),
-      el_tabpanels = childrenMatches(el_tabpanel.parentElement, "[data-tab-panel]");
-    [].forEach.call(el_tabpanels, function (tabpanel) {
+      el_tabpanels = childrenMatches(el_tabpanel.parentElement, "[data-panel-tab]");
+      el_tabpanels.forEach(function (tabpanel) {
       _removeClasses(tabpanel, config.class_selected)
       tabpanel.setAttribute("hidden", "");
       tabpanel.removeAttribute("tabindex");
@@ -295,7 +329,7 @@ var tabbedContent = (function (el_root) {
   var _getButtonConfig = function (element) {
     var component_group = element.getAttribute("data-tab-group");
     var el_component = el_root.querySelector(
-      "[data-component=tabbed-content][id=tabbed-content-" +
+      "[data-component=tab][id=tab-content-" +
       component_group +
       "]"
     );
