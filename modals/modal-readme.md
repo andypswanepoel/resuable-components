@@ -125,7 +125,7 @@ The following configurations can be set at the trigger level:
 | `data-external-link` | true<br>false | false      |  This should be used for an exit modal. When set to true, the link URL from the trigger will be populated in the exit link of the exit modal. The exit link within the modal will be labelled with the `data-external-link` attribute. |
 
 <br>
-The following configurations can be set at the modal container level:
+The following configurations can be set at the modal container level:<br>
 
 | Configuration | Options     | Default | Description  |
 | ------------- | ----------- | ------- | ------------ |
