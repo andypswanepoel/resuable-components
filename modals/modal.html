@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modals</title>
+    <link rel="stylesheet" type="text/css" href="modal.css">
+</head>
+
+<body>
+    <main>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil mollitia accusamus corrupti repudiandae, aliquid perferendis natus magni, officia molestiae sequi quisquam officiis similique, consectetur ea consequatur doloremque amet eos deleniti!Molestias aperiam quae reiciendis odit itaque repellendus corrupti, est fugiat culpa voluptates accusantium velit? Nobis earum ipsa voluptate assumenda unde, beatae eveniet aperiam iste accusamus atque doloremque distinctio nam quibusdam.</p>
+        <button data-trigger data-target="modal-id1" data-classnames="testing 1">Modal Trigger</button>
+        <button data-trigger data-target="modal-id2">Modal Trigger</button>
+    </main>
+    
+    <aside data-component="modal" data-z-index="100">
+        <div id="modal-id2" data-modal hidden>
+            <button data-close-modal>X</button>
+            <h2 data-label>Content Header 1</h2>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <a data-trigger data-target="modal-id3" data-bg-close="false" data-external-link="true" href="https://www.google.com" data-classnames="testing 2">External Modal Trigger</a>
+            <p>Content text 2. <a href="#">Links</a></p>    
+        </div>
+        <div id="modal-id3" data-modal hidden>
+            <button data-close-modal>X</button>
+            <h2 data-label>Leaving the site</h2>
+            <a data-external-link href="#" target="_blank">EXIT LINK</a>
+            <button data-close-modal>Close</button>
+        </div>
+        <div id="modal-id1" data-modal hidden>
+            <button data-close-modal>X</button>
+            <h2 data-label>Content Header 2</h2>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>
+            <p>Content text 2. <a href="#">Links</a></p>    
+        </div>
+    </aside>
+    <script src="modal.shim.js"></script>
+    <script src="modal.js"></script>
+</body>
+
+</html>
