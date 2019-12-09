@@ -124,7 +124,7 @@ Since modal triggers can be found anywhere within the content, we will have to s
 | `data-classnames`    | Any string    | modal-open |   The class name(s) will be added to the modal container when a modal is open. If more than one modal is opened, both modals class name(s) will be added.  |
 | `data-external-link` | true<br>false | false      |  This should be used for an exit modal. When set to true, the link URL from the trigger will be populated in the exit link of the exit modal. The exit link within the modal will be labelled with the `data-external-link` attribute. |
 
-<br>
+
 ### Modal Container-Level Configurations
 
 | Configuration | Options     | Default | Description  |
