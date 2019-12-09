@@ -126,6 +126,7 @@ The following configurations can be set at the trigger level:
 
 <br>
 The following configurations can be set at the modal container level:
+
 | Configuration | Options     | Default | Description  |
 | ------------- | ----------- | ------- | ------------ |
 | `data-z-index`| Any number  | 100 	| This value will act as the base value for the modal z-index. If more than one modal is opened at once, the z-index value will be incremented for each.    |
