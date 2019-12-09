@@ -4,14 +4,10 @@
  * Required for legacy browsers (IE11 or older).
  */
 
-// Simple shim for Array.forEach (for legacy browsers).
-// @see https://gist.github.com/gregbenner/7767534
-if (!Array.prototype.forEach) {
-  Array.prototype.forEach = function(fn, scope) {
-    for (var i = 0, len = this.length; i < len; ++i) {
-      fn.call(scope || this, this[i], i, this);
-    }
-  };
+// Simple shim for NodeList.forEach (for legacy browsers).
+// @see https://developer.mozilla.org/en-US/docs/Web/API/NodeList/forEach
+if (window.NodeList && !NodeList.prototype.forEach) {
+  NodeList.prototype.forEach = Array.prototype.forEach;
 }
 
 // Simple shim for closest() (for legacy browsers).
@@ -23,7 +19,7 @@ if (!Element.prototype.matches) {
 }
 
 if (!Element.prototype.closest) {
-  Element.prototype.closest = function(s) {
+  Element.prototype.closest = function (s) {
     var el = this;
     do {
       if (el.matches(s)) return el;
@@ -32,6 +28,7 @@ if (!Element.prototype.closest) {
     return null;
   };
 }
+
 
 // Simple shim for prepend() (for legacy browsers).
 // Source: https://github.com/jserz/js_piece/blob/master/DOM/ParentNode/prepend()/prepend().md
@@ -47,12 +44,12 @@ if (!Element.prototype.closest) {
       value: function prepend() {
         var argArr = Array.prototype.slice.call(arguments),
           docFrag = document.createDocumentFragment();
-        
+
         argArr.forEach(function (argItem) {
           var isNode = argItem instanceof Node;
           docFrag.appendChild(isNode ? argItem : document.createTextNode(String(argItem)));
         });
-        
+
         this.insertBefore(docFrag, this.firstChild);
       }
     });

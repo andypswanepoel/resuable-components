@@ -9,7 +9,7 @@ var tabbedContent = (function (el_root) {
   var init = function () {
 
     var el_components = el_root.querySelectorAll("[data-component=tab]");
-    initComponents("[data-component]");
+    initComponents("[data-component=tab]");
     el_components.forEach(function (el_component, i) {
       var autoinit = _getAttribute(el_component, "data-autoinit", {
         default: "true",
@@ -38,7 +38,7 @@ var tabbedContent = (function (el_root) {
     document.querySelectorAll(selector).forEach(function(el_component) {
       var type = el_component.getAttribute("data-component");
 
-      ["panel"].forEach(function(attr) {
+      ["panel", "trigger"].forEach(function(attr) {
         var els = el_component.querySelectorAll("[data-" + attr + "]");
         if (els.length === 0) {
           return
@@ -76,6 +76,18 @@ var tabbedContent = (function (el_root) {
     // Add a unique id for each component 
     el_component.setAttribute("id", "tab-content-" + i)
     el_component.setAttribute("data-initialized", "true");
+
+    // Add the aria-describedby attribute
+    var descBy = el_root.createElement("p");
+    descBy.id = "tab-desc-" + i
+    descBy.innerText =  "Use the left and right arrow keys to switch between tabs. Use the down arrow or tab key to move to the active tab's content."; 
+    if (config.mobile_stack === "true") {
+      descBy.innerText += " On mobile devices, use the up and down arrow keys to switch between tabs and the tab key to move to the active tab's content.";
+    }
+    descBy.setAttribute("hidden", "");
+
+    el_component.setAttribute("aria-describedby", "tab-desc-" + i);
+    el_component.appendChild(descBy);
 
     //create the list that will store the buttons for each component
     var list = el_root.createElement("ul");
@@ -179,7 +191,7 @@ var tabbedContent = (function (el_root) {
       config = _getButtonConfig(el_tab),
       key = ev.keyCode === 37 ? "left" : ev.keyCode === 39 ? "right" : ev.keyCode === 38 ? "up" : ev.keyCode === 40 ? "down" : null,
       el_new_tab;
-
+      
     // If the device is <768px wide and mobile stack is on, controls are with up and down keys
     if (config.mobile_stack === "true" && window.innerWidth < config.mobile_break) {
       el_new_tab = key === "up" ? el_tabs[index - 1] : key === "down" ? el_tabs[index + 1] : null
@@ -284,7 +296,7 @@ var tabbedContent = (function (el_root) {
       }
     }
     if (typeof options.valid !== "undefined") {
-      if (options.valid.includes(value)) {
+      if (options.valid.indexOf(value) > -1) {
         return value.toLowerCase();
       } else if (typeof options.default !== "undefined") {
         // We provided a list of valid options. The option specified in the
