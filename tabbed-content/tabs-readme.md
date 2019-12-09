@@ -91,7 +91,7 @@ If the tabs stack on mobile widths, the controls are:
 
 Component configurations can be added at the component level or at the tab panel level.
 
-The following configurations can be added as data attributes at the component level:
+### Component-Level Configurations
 
 | Configuration        	       | Options       | Default      | Description  |
 | ---------------------------- | ------------- | ------------ | ------------ |
@@ -101,8 +101,7 @@ The following configurations can be added as data attributes at the component le
 | `data-classnames-selected`   | Any string    | selected     | The class name(s) will be added to the tab and tab panel when selected. |
 | `data-classnames-unselected` | Any string    | not-selected | The class name(s) will be added to the tab and tab panel when unselected. |
 
-<br>
-The following data-attributes can be added at the panel level:
+### Tab Panel-Level Configurations
 | Configuration   | Options   			    	| Default    | Description  |
 | --------------- | --------------------------- | ---------- | ------------ |
 | `data-tab-name` | Any string  				| tab X	  	 | The value of this attribute will be the name given to the tab controlling the panel.|
