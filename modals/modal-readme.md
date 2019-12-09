@@ -121,7 +121,7 @@ The following configurations can be set at the trigger level:
 | Configuration        | Options       | Default    | Description  |
 | -------------------- | ------------- | ---------- | ------------ |
 | `data-bg-close`      | true<br>false | true 	    |   This setting determines whether the user can click outside of the modal to close it. |
-| `data-classnames`    | Any string    | modal-open |   The classname(s) will be added to the modal container when a modal is open. If more than one modal is opened, both modals classname(s) will be added.  |
+| `data-classnames`    | Any string    | modal-open |   The class name(s) will be added to the modal container when a modal is open. If more than one modal is opened, both modals class name(s) will be added.  |
 | `data-external-link` | true<br>false | false      |  This should be used for an exit modal. When set to true, the link URL from the trigger will be populated in the exit link of the exit modal. The exit link within the modal will be labelled with the `data-external-link` attribute. |
 
 <br>
@@ -146,10 +146,10 @@ The `event.detail` object includes the DOM element for the modal (`event.detail.
 The following hooks are available to use on the modal component. 
 
 #### beforeInit()
-Runs before each component is initiallized.
+Runs before the modals are initiallized.
 
 #### afterInit()
-Runs after each component is initiallized.
+Runs after the modals are initiallized.
 
 #### beforeOpen(el_modal, config)
 Runs before modal is opened.
