@@ -30,3 +30,25 @@
     width: 300px;
     height: 400px;
   }
+
+  *:focus {
+    outline: 1px solid blue;
+  }
+
+  /* Hide visually, but make accessible to screen readers. */
+.sr-only {
+  border: 0;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(0,0,0,0);
+  display: block;
+  font-size: 1px;
+  height: 1px;
+  line-height: 1px;
+  margin: -1px 0 0 -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+  outline: 0;
+  white-space: nowrap;
+  width: 1px;
+}
