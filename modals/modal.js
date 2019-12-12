@@ -199,7 +199,11 @@ var modal = (function (el_root) {
       el.parentNode.remove();
     }
 
-    activeTriggers[activeTriggers.length - 1].focus();
+    if (activeTriggers[activeTriggers.length - 1].hasAttribute("hidden")) {
+      window.focus();
+    } else {
+      activeTriggers[activeTriggers.length - 1].focus();
+    }
 
     hooks.afterClose(el, config);
 
