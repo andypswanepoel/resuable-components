@@ -7,66 +7,107 @@ The modal component will have the following states: <br>
 
 ## Component HTML
 
-### Input HTML
+### Inactive State
 
-At minimum, you will need a modal trigger and a modal, within a modal container .
+#### From Existing Modal
+
+At minimum, you will need a modal trigger and a modal, within a modal container.
 
 The trigger(s) should be contained within the main section of the body, while the modal should be a non-child section. 
 
-The trigger will need a `data-trigger` and a `data-target` attribute. The value of the `data-target` attribute associates the trigger with the matching modal ID. 
+The trigger will need a `data-component="modal"` attribute and a `data-target` attribute. The value of the `data-target` attribute associates the trigger with the matching modal ID. 
 
-The modal will need a `data-modal` attribute and the `data-label` attribute should be added to the header of the modal content. This will ensure that it is associated to the modal for accessibility.
+The `data-label` attribute should be added to the header of the modal content. This will ensure that it is associated to the modal for accessibility.
+
 
 ```
 <main>
-  <button data-trigger data-target="modal-id">Modal Trigger</button>
+  <button data-component="modal" data-target="modal-id">Modal Trigger</button>
 </main>
 
-<aside data-component="modal">
-  <div id="modal-id" data-modal hidden>
-    <h2 data-label>Content Header 1</h2> 
-    <p>Content text 1.</p>
+<div data-modal-container>
+  <div id="modal-id" hidden>
+      <h2 data-label>Content Header 1</h2>
+      <p>Content text 2</p>
   </div>
-</aside>
+</div>
 ```
 
+#### From Existing Content
+At minimum, you will need a modal trigger and content to be added to the modal.
 
-### Output HTML
+The trigger(s) and content can both be contained within the main section of the body. 
 
-If JS is not enabled, the content will display as it is in the input HTML and the modals will all remain hidden.
-If JS is enabled, the modal will be initialized by adding various attributes for control and accessibility.
+The trigger will need a `data-component="modal"` attribute and a `data-target-content` attribute. The value of the `data-target-content` attribute associates the trigger with the matching modal ID. 
+
+The `data-label` attribute should be added to the header of the modal content. This will ensure that it is associated to the modal for accessibility.
 
 
-#### Modal Inactive
 ```
 <main>
-  <button data-trigger-modal data-target-modal="modal-id" aria-controls="modal-id">Modal Trigger</button>
-</main>
+  <button data-component="modal" data-target-content="modal-id">Modal Trigger</button>
 
-<aside data-component="modal">
-  <div id="modal-id" data-modal hidden>
-    <button data-close-modal>X</button>
-    <h2 data-label id="modal-id-label">Content Header 1</h2>
-    <p>Content text 1.</p>
+  // More code
+
+  <div id="modal-id" hidden>
+    <h2 data-label>Content Header 1</h2>
+    <p>Content text 2</p>
   </div>
-</aside>
+</main>
 ```
 
-#### Modal Active
+### Active State
+
+#### From Existing Modal
+
 ```
 <main aria-hidden="true">
-  <button id="modal-id-trigger" data-trigger-modal aria-controls="modal-id">Modal Trigger</button>
+  <button data-component="modal" data-target="modal-id">Modal Trigger</button>
 </main>
 
-<aside data-component="modal" data-active-modal>
-
-  <div data-active-bg class="modal-open" data-close-modal style="z-index: 100;"></div> //z-index value will be dynamically set depending on how many are open and the initial value set
-  <div id="modal-id" data-modal role="dialog" aria-modal="true" hidden tabindex="0" aria-labelledby="modal-id-label" style="z-index: 100"> //z-index value will be dynamically set depending on how many are open and the initial value set
-    <button data-close-modal>X</button>
-    <h2 data-label id="modal-id-label">Content Header 1</h2>
-    <p>Content text 1.</p>
+<div data-modal-container>
+  <div id="modal-id-wrapper" data-modal-wrapper class="modal-open">
+    <div data-active-bg data-close-modal style="z-index: 100;">
+      <span class="sr-only">Close modal</span>
+    </div>
+    <div id="modal-id" role="dialog" aria-modal="true" tabindex="0" data-modal="" aria-labelledby="modal-id1-label" aria-describedby="modal-desc" style="z-index: 100;">
+      <button data-close-modal aria-label="Close modal">Close</button>
+      <h2 data-label id="modal-id-label">Content Header 1</h2>
+      <p>Content text 2</p>
+    </div>
   </div>
-</aside>
+</div>
+
+<p id="modal-desc" hidden= aria-hidden="true">Tab through the modal to access the content. Press the escape key to exit the modal. Clicking outside of the modal may close the modal.</p>
+```
+
+#### From Existing Content
+```
+<main aria-hidden="true">
+  <button data-component="modal" data-target-content="modal-id">Modal Trigger</button>
+
+  <div id="modal-id" hidden>
+    <h2 data-label>Content Header 1</h2>
+    <p>Content text 2</p>
+  </div>
+</main>
+
+// More code
+
+<p id="modal-desc" hidden aria-hidden="true">Tab through the modal to access the content. Press the escape key to exit the modal. Clicking outside of the modal may close the modal.</p>
+
+<div data-modal-container>
+  <div id="modal-id-wrapper" data-modal-wrapper class="modal-open">
+    <div data-active-bg data-close-modal style="z-index: 100;">
+      <span class="sr-only">Close modal</span>
+    </div>
+    <div id="modal-id-modal" role="dialog" aria-modal="true" tabindex="0" data-modal aria-labelledby="modal-id-modal-label" aria-describedby="modal-desc" style="z-index: 100;">
+      <button data-close-modal="" aria-label="Close modal">Close</button>
+      <h2 data-label id="my-id-modal-label">Content Header 1</h2>
+      <p>Content text 2</p>
+    </div>
+  </div>
+</div>
 ```
 
 ## CSS
@@ -114,22 +155,16 @@ Tabbing will move to focusable elements within the modal.
 
 ## Component Configs
 
-Since modal triggers can be found anywhere within the content, we will have to set configurations at the trigger level or modal container level.<br>
+Since modal triggers can be found anywhere within the content, configurations will be set at the trigger level.<br>
 
-### Trigger-Level Configurations
 
 | Configuration        | Options       | Default    | Description  |
 | -------------------- | ------------- | ---------- | ------------ |
 | `data-bg-close`      | true<br>false | true 	    |   This setting determines whether the user can click outside of the modal to close it. |
-| `data-classnames`    | Any string    | modal-open |   The class name(s) will be added to the modal container when a modal is open. If more than one modal is opened, both modals class name(s) will be added.  |
-| `data-external-link` | true<br>false | false      |  This should be used for an exit modal. When set to true, the link URL from the trigger will be populated in the exit link of the exit modal. The exit link within the modal will be labelled with the `data-external-link` attribute. |
-
-
-### Modal Container-Level Configurations
-
-| Configuration | Options     | Default | Description  |
-| ------------- | ----------- | ------- | ------------ |
-| `data-z-index`| Any number  | 100 	| This value will act as the base value for the modal z-index. If more than one modal is opened at once, the z-index value will be incremented for each.    |
+| `data-close-btn`     | true<br>false | true 	    |   This setting determines whether a close button will be added to the modal. |
+| `data-close-btn-text`| Any string | Close	    |   This setting determines the text content of the close button. It will accept an empty string if you wish to style it with a CSS background image.|
+| `data-classnames`    | Any string    | modal-open |   The class name(s) will be added to the modal wrapper when a modal is open. If more than one modal is opened, each modal will have its own wrapper containing it's own class name(s).|
+| `data-z-index` | Any number | 100      |  This value will act as the base value for the modal z-index. If more than one modal is opened at once, the z-index value will be incremented for each based on the value provided by the first triggered modal.|
 
 
 ## Emitted Events
@@ -170,11 +205,11 @@ Runs after modal is closed.
 
 The following calls are available from the modal component.
 
-#### modal.open(el_modal)
-This will open the selected modal.
+#### modals.toggle(el_trigger)
+This will open the selected modal that the provided trigger points to.
 
-#### modal.close(el_modal)
+#### modals.close(el_modal)
 This will close the selected modal.
 
-#### modal.defineHooks({custom_hooks})
+#### modals.defineHooks({custom_hooks})
 This can be used to pass the custom hooks to the modal component.
