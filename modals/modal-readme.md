@@ -7,9 +7,9 @@ The modal component will have the following states: <br>
 
 ## Component HTML
 
-### Inactive State
+### From Existing Modal
 
-#### From Existing Modal
+#### Inactive State
 
 At minimum, you will need a modal trigger and a modal, within a modal container.
 
@@ -33,32 +33,7 @@ The `data-label` attribute should be added to the header of the modal content. T
 </div>
 ```
 
-#### From Existing Content
-At minimum, you will need a modal trigger and content to be added to the modal.
-
-The trigger(s) and content can both be contained within the main section of the body. 
-
-The trigger will need a `data-component="modal"` attribute and a `data-target-content` attribute. The value of the `data-target-content` attribute associates the trigger with the matching modal ID. 
-
-The `data-label` attribute should be added to the header of the modal content. This will ensure that it is associated to the modal for accessibility.
-
-
-```
-<main>
-  <button data-component="modal" data-target-content="modal-id">Modal Trigger</button>
-
-  // More code
-
-  <div id="modal-id" hidden>
-    <h2 data-label>Content Header 1</h2>
-    <p>Content text 2</p>
-  </div>
-</main>
-```
-
-### Active State
-
-#### From Existing Modal
+#### Active State
 
 ```
 <main aria-hidden="true">
@@ -81,7 +56,33 @@ The `data-label` attribute should be added to the header of the modal content. T
 <p id="modal-desc" hidden= aria-hidden="true">Tab through the modal to access the content. Press the escape key to exit the modal. Clicking outside of the modal may close the modal.</p>
 ```
 
-#### From Existing Content
+### From Existing Content
+
+#### Inactive State
+At minimum, you will need a modal trigger and content to be added to the modal.
+
+The trigger(s) and content can both be contained within the main section of the body. 
+
+The trigger will need a `data-component="modal"` attribute and a `data-target-content` attribute. The value of the `data-target-content` attribute associates the trigger with the matching modal ID. 
+
+The `data-label` attribute should be added to the header of the modal content. This will ensure that it is associated to the modal for accessibility.
+
+
+```
+<main>
+  <button data-component="modal" data-target-content="modal-id">Modal Trigger</button>
+
+  // More code
+
+  <div id="modal-id" hidden>
+    <h2 data-label>Content Header 1</h2>
+    <p>Content text 2</p>
+  </div>
+</main>
+```
+
+#### Active State
+
 ```
 <main aria-hidden="true">
   <button data-component="modal" data-target-content="modal-id">Modal Trigger</button>
@@ -110,6 +111,7 @@ The `data-label` attribute should be added to the header of the modal content. T
 </div>
 ```
 
+
 ## CSS
 
 The CSS that is required will add display the modal container when a modal is active, add styling for the background.
@@ -126,6 +128,23 @@ The CSS that is required will add display the modal container when a modal is ac
 
   [data-modal][hidden] {
     display: none;
+  }
+
+  .sr-only {
+    border: 0;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(0,0,0,0);
+    display: block;
+    font-size: 1px;
+    height: 1px;
+    line-height: 1px;
+    margin: -1px 0 0 -1px;
+    padding: 0;
+    position: absolute;
+    overflow: hidden;
+    outline: 0;
+    white-space: nowrap;
+    width: 1px;
   }
 ```
 
