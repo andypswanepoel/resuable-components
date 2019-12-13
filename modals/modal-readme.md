@@ -11,9 +11,9 @@ The modal component will have the following states: <br>
 
 #### Inactive State
 
-At minimum, you will need a modal trigger and a modal, within a modal container.
+At minimum, you will need a modal trigger and a modal. For accessibility, the modal should not be in the main element.
 
-The trigger(s) should be contained within the main section of the body, while the modal should be a non-child section. 
+The trigger(s) should be contained within the main section of the body. 
 
 The trigger will need a `data-component="modal"` attribute and a `data-target` attribute. The value of the `data-target` attribute associates the trigger with the matching modal ID. 
 
@@ -25,11 +25,11 @@ The `data-label` attribute should be added to the header of the modal content. T
   <button data-component="modal" data-target="modal-id">Modal Trigger</button>
 </main>
 
-<div data-modal-container>
-  <div id="modal-id" hidden>
-      <h2 data-label>Content Header 1</h2>
-      <p>Content text 2</p>
-  </div>
+// More content
+
+<div id="modal-id" hidden>
+  <h2 data-label>Content Header 1</h2>
+  <p>Content text 2</p>
 </div>
 ```
 
@@ -40,16 +40,14 @@ The `data-label` attribute should be added to the header of the modal content. T
   <button data-component="modal" data-target="modal-id">Modal Trigger</button>
 </main>
 
-<div data-modal-container>
-  <div id="modal-id-wrapper" data-modal-wrapper class="modal-open">
-    <div data-active-bg data-close-modal style="z-index: 100;">
-      <span class="sr-only">Close modal</span>
-    </div>
-    <div id="modal-id" role="dialog" aria-modal="true" tabindex="0" data-modal="" aria-labelledby="modal-id1-label" aria-describedby="modal-desc" style="z-index: 100;">
-      <button data-close-modal aria-label="Close modal">Close</button>
-      <h2 data-label id="modal-id-label">Content Header 1</h2>
-      <p>Content text 2</p>
-    </div>
+<div id="modal-id-wrapper" data-modal-wrapper class="modal-open">
+  <div data-active-bg data-close-modal style="z-index: 100;">
+    <button data-close-modal class="sr-only">Close modal</button>
+  </div>
+  <div id="modal-id" role="dialog" aria-modal="true" tabindex="0" data-modal aria-labelledby="modal-id1-label" aria-describedby="modal-desc" style="z-index: 100;">
+    <button data-close-modal aria-label="Close modal">Close</button>
+    <h2 data-label id="modal-id-label">Content Header 1</h2>
+    <p>Content text 2</p>
   </div>
 </div>
 
@@ -97,16 +95,14 @@ The `data-label` attribute should be added to the header of the modal content. T
 
 <p id="modal-desc" hidden aria-hidden="true">Tab through the modal to access the content. Press the escape key to exit the modal. Clicking outside of the modal may close the modal.</p>
 
-<div data-modal-container>
-  <div id="modal-id-wrapper" data-modal-wrapper class="modal-open">
-    <div data-active-bg data-close-modal style="z-index: 100;">
-      <span class="sr-only">Close modal</span>
-    </div>
-    <div id="modal-id-modal" role="dialog" aria-modal="true" tabindex="0" data-modal aria-labelledby="modal-id-modal-label" aria-describedby="modal-desc" style="z-index: 100;">
-      <button data-close-modal="" aria-label="Close modal">Close</button>
-      <h2 data-label id="my-id-modal-label">Content Header 1</h2>
-      <p>Content text 2</p>
-    </div>
+<div id="modal-id-wrapper" data-modal-wrapper class="modal-open">
+  <div data-active-bg data-close-modal style="z-index: 100;">
+    <span class="sr-only">Close modal</span>
+  </div>
+  <div id="modal-id-modal" role="dialog" aria-modal="true" tabindex="0" data-modal aria-labelledby="modal-id-modal-label" aria-describedby="modal-desc" style="z-index: 100;">
+    <button data-close-modal aria-label="Close modal">Close</button>
+    <h2 data-label id="my-id-modal-label">Content Header 1</h2>
+    <p>Content text 2</p>
   </div>
 </div>
 ```
@@ -157,6 +153,8 @@ When the modal is open, the user should only be able to tab and navigate within 
 If configured, the user should be able to click outside of the modal to close it.
 
 When the modal closes, the trigger that activated the modal will receive focus.
+
+If the modal was activated by a hidden trigger, the focus will be returned to `main`, `role="main"`, or `body` in that order.
 
 ### Multiple Modals <br>
 If multiple modals are open at once, the same logic will apply:

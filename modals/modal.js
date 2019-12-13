@@ -10,16 +10,16 @@ var modal = (function (el_root) {
 
   var init = function () {
 
-    hooks.beforeInit()
+    hooks.beforeInit();
 
     // Set aria-describedby attribute by for the modal content
     var descBy = el_root.createElement("p");
     descBy.id = "modal-desc";
     descBy.innerText = "Tab through the modal to access the content. Press the escape key to exit the modal. Clicking outside of the modal may close the modal.";
     descBy.setAttribute("hidden", "");
-    el_root.body.appendChild(descBy)
+    el_root.body.appendChild(descBy);
 
-    hooks.afterInit()
+    hooks.afterInit();
   }
 
   var _bindEvents = function () {
@@ -82,19 +82,19 @@ var modal = (function (el_root) {
     }
   }
 
-  var toggleModal = function (el) {
-    if (el.getAttribute("data-component") === "modal") {
-      activeTriggers.push(el);
-      var config = _getConfig(el)
-      if (el.hasAttribute("data-target")) {
-        var el_modal = el_root.getElementById(el.getAttribute("data-target"));
+  var toggleModal = function (el_click) {
+    if (el_click.getAttribute("data-component") === "modal") {
+      activeTriggers.push(el_click);
+      var config = _getConfig(activeTriggers[activeTriggers.length - 1]);
+      if (el_click.hasAttribute("data-target")) {
+        var el_modal = el_root.getElementById(el_click.getAttribute("data-target"));
         open(el_modal, config);
       } else {
-        createModal(el)
+        createModal(el_click, config)
       }
     }
 
-    if (el.hasAttribute("data-close-modal")) {
+    if (el_click.hasAttribute("data-close-modal")) {
       var el_modal = activeModals[activeModals.length - 1];
       var config = _getConfig(activeTriggers[activeTriggers.length - 1]);
       close(el_modal, config);
@@ -102,134 +102,171 @@ var modal = (function (el_root) {
     }
   }
 
-  var open = function (el, config) {
-    config = config !== undefined ? config : _getModalConfig(el);
 
-    hooks.beforeOpen(el, config);
+  var createModal = function (el_trigger, config) {
+    activeTriggers.push(el_trigger);
 
-    const container = el.closest("[data-modal-container]");
-    el_root.querySelectorAll("body > *:not(script)").forEach(function (el_hide) {
-      if (el_hide !== container) {
-        el_hide.setAttribute("aria-hidden", "true");
-      }
-    })
-    activeModals.push(el)
+    // Create modal
+    var el_content = el_root.getElementById(el_trigger.getAttribute("data-target-content"));
+    var el_modal = el_content.cloneNode(true);
+    el_modal.id = el_content.id + "-modal";
 
-    el.setAttribute("role", "dialog");
-    el.setAttribute("aria-modal", "true");
-    el.setAttribute("tabindex", "0");
-    el.setAttribute("data-modal", "")
-    el.removeAttribute("hidden");
+    // Append modal to body
+    el_root.body.appendChild(el_modal);
+    open(el_modal, config);
+  }
+
+  var open = function (el_modal, config) {
+
+    hooks.beforeOpen(el_modal, config);
+
+    // Add modal to the activeModals array
+    activeModals.push(el_modal)
+
+    // Add accessibility attributes
+    el_modal.setAttribute("role", "dialog");
+    el_modal.setAttribute("aria-modal", "true");
+    el_modal.setAttribute("tabindex", "0");
+    el_modal.setAttribute("data-modal", "")
+    el_modal.removeAttribute("hidden");
+
+    // If modal had been previously set to aria-hidden, remove that attribute
+    el_modal.removeAttribute("aria-hidden");
 
     if (config.close_btn === "true") {
       var btn = el_root.createElement("button")
       btn.setAttribute("data-close-modal", "");
       btn.setAttribute("aria-label", "Close modal");
       btn.innerText = config.close_btn_text;
-      el.insertBefore(btn, el.childNodes[0]);
+      el_modal.insertBefore(btn, el_modal.childNodes[0]);
     }
 
-    
     // Adding an id to the label element within the modal;
-    el.querySelector("[data-label]").setAttribute("id", el.id + "-label");
+    // If the id exists, use that 
+    // If not, create o
+    var modalLabel = el_modal.querySelector("[data-label]")
+    if (!modalLabel.id) {
+      modalLabel.setAttribute("id", el_modal.id + "-label");
+    }
 
-    
     // Set the aria-labelledby and aria-describedby attribute
-    el.setAttribute("aria-labelledby", el.id + "-label")
-    el.setAttribute("aria-describedby", "modal-desc")
-    
-    // Create the modal wrapper to add classes
+    el_modal.setAttribute("aria-labelledby", modalLabel.id)
+    el_modal.setAttribute("aria-describedby", "modal-desc")
+
+    // Create the modal wrapper
+    // Add it before the modal
     var wrapper = el_root.createElement("div");
-    wrapper.id = el.id + "-wrapper"
+    wrapper.id = el_modal.id + "-wrapper"
     wrapper.setAttribute("data-modal-wrapper", "")
-    
+    el_modal.parentNode.insertBefore(wrapper, el_modal)
+
     // Insert the element in the wrapper.
-    // Then insert wrapper in the container.
-    wrap(wrap(el, wrapper), container);
-    
+    // Add classes to the wrapper
+    // Add the background to the element
+    // Focus the modal
+    wrap(el_modal, wrapper);
     _addClasses(wrapper, config.class_open);
+    addBackground(el_modal, config)
+    el_modal.focus();
 
-    addBackground(el, config)
-  
-    el.focus();
+    currentModalSR();
 
-    hooks.afterOpen(el, config);
+    hooks.afterOpen(el_modal, config);
 
     emitEvent("modalOpen", {
-      modal: el,
+      modal: el_modal,
       component_config: config
     });
   }
 
 
-  var close = function (el, config) {
-    config = config !== undefined ? config : _getModalConfig(el);
+  var close = function (el_modal, config) {
 
-    hooks.beforeClose(el, config);
-    
-    const container = el.closest("[data-modal-container]");
-    el_root.querySelectorAll("body > *:not(script)").forEach(function (el_show) {
-      if (el_show !== container) {
-        el_show.removeAttribute("aria-hidden");
-      }
-    })
+    config = config !== undefined ? config : _getConfig(activeTriggers[activeTriggers.length - 1]);
+
+    hooks.beforeClose(el_modal, config);
+
+    // Remove modal from the activeModals array
     activeModals.pop()
-    el.removeAttribute("role");
-    el.removeAttribute("aria-modal");
-    el.removeAttribute("tabindex");
-    el.removeAttribute("data-modal");
-    el.setAttribute("hidden", "");
-    el.style.zIndex = "";
 
+    // Removing accessibility attributes from the modal element
+    el_modal.removeAttribute("role");
+    el_modal.removeAttribute("aria-modal");
+    el_modal.removeAttribute("tabindex");
+    el_modal.removeAttribute("data-modal");
+    el_modal.setAttribute("hidden", "");
+    el_modal.style.zIndex = "";
+
+    // If it had a close button added, we remove it
     if (config.close_btn === "true") {
-      el.querySelector("button[data-close-modal]").remove();
+      el_modal.querySelector("button[data-close-modal]").remove();
     }
-    
-    
+
     // Remove the aria-labelledby and aria-describedby attribure
-    el.removeAttribute("aria-labelledby");
-    el.removeAttribute("aria-describedby");
-    
-    _removeClasses(el.closest("[data-modal-wrapper]"), config.class_open);
-    unwrap(el.closest("[data-modal-wrapper]"));
+    el_modal.removeAttribute("aria-labelledby");
+    el_modal.removeAttribute("aria-describedby");
 
-    removeBackground(el);
+    // Remove the classes from the wrapper, then remove the modal from the wrapper
+    _removeClasses(el_modal.closest("[data-modal-wrapper]"), config.class_open);
+    unwrap(el_modal.closest("[data-modal-wrapper]"));
 
+    removeBackground(el_modal);
+
+    // If the modal was triggered by a [data-target-content], remove the modal that was duplicated
     if (activeTriggers[activeTriggers.length - 1].hasAttribute("data-target-content")) {
-      el.parentNode.remove();
+      el_modal.remove();
     }
 
+    // If the modal was triggered by a hidden trigger, we need to determine where to send focus
+    // Check the DOM for each of the main, role=main, or body. Whichever exists, send the focus there.
     if (activeTriggers[activeTriggers.length - 1].hasAttribute("hidden")) {
-      window.focus();
+      var els_focus = ["main", "[role=main]", "body"].filter(function (el_focus) {
+        return el_root.querySelector(el_focus)
+      }).map(function(el_focus) {
+        return el_root.querySelector(el_focus)
+      })
+
+      // Need to add tabindex to allow it to be focusable
+      els_focus[0].setAttribute("tabindex", "0")
+      els_focus[0].focus()
+      els_focus[0].removeAttribute("tabindex")
+
+      // If the modal was triggered by a trigger on the page, send focus to the trigger
     } else {
       activeTriggers[activeTriggers.length - 1].focus();
     }
 
-    hooks.afterClose(el, config);
+    // If there are more than one modal open, run the function to search throught body element children
+    // If it is the last modal, then remove aria hidden from all body element children
+    if (activeModals.length > 0) {
+      currentModalSR();
+    } else {
+      el_root.querySelectorAll("body > *:not(script)").forEach(function (el_body_child) {
+        el_body_child.removeAttribute("aria-hidden")
+      })
+    }
+
+    hooks.afterClose(el_modal, config);
 
     emitEvent("modalClose", {
-      modal: el,
+      modal: el_modal,
       component_config: config
     });
   }
 
-  var createModal = function (el) {
-    activeTriggers.push(el);
-    var config = _getConfig(el)
-
-    // Create container
-    var container = el_root.createElement("div")
-    container.setAttribute("data-modal-container", "");
-
-    // Create modal
-    var el_content = el_root.getElementById(el.getAttribute("data-target-content"));
-    var el_modal = el_content.cloneNode(true);
-    el_modal.id = el_content.id + "-modal";
-    
-    // Append to body
-    container.appendChild(el_modal);
-    el_root.body.appendChild(container);
-    open(el_modal, config);
+  /**
+   * This function will search through the children of the body element
+   * If the child does not contain the active modal, hide it from screenreaders
+   * If it the child contains the active modal, then enable it to screenreaders.
+   */
+  var currentModalSR = function () {
+    el_root.querySelectorAll("body > *:not(script)").forEach(function (el_hide) {
+      if (!isDescendant(el_hide, activeModals[activeModals.length - 1])) {
+        el_hide.setAttribute("aria-hidden", "true");
+      } else {
+        el_hide.removeAttribute("aria-hidden");
+      }
+    })
   }
 
   var _addClasses = function (element, classes) {
@@ -244,34 +281,43 @@ var modal = (function (el_root) {
     });
   };
 
-  var addBackground = function (el, config) {
+
+  /**
+   * Adds a background to the provided element.
+   * Uses the provided configs to determine whether the background should act as a close button.
+   */
+  var addBackground = function (element, config) {
     var bg = el_root.createElement("div");
-    var bg_text = el_root.createElement("span");
-    bg_text.innerText = "Close modal"
-    bg_text.classList.add("sr-only");
-    wrap(bg_text, bg);
     var currentZ;
     if (activeModals.length === 1) {
       currentZ = parseInt(config.z_index)
     } else {
       currentZ = parseInt(activeModals[0].style.zIndex);
     }
-    bg.style.zIndex = currentZ + activeModals.indexOf(el);
+    bg.style.zIndex = currentZ + activeModals.indexOf(element);
     bg.setAttribute("data-active-bg", "")
-    el.style.zIndex = currentZ + activeModals.indexOf(el);
+    element.style.zIndex = currentZ + activeModals.indexOf(element);
 
-    // These lines make sure that only one background opacity is shown and they don't compound
+    // These lines make sure that only one background opacity is shown and they don't compound.
     el_root.querySelectorAll("[data-active-bg]").forEach(function (overlay) {
       overlay.style.opacity = "0";
     })
 
     if (config.bg_close === "true") {
-      bg.setAttribute("data-close-modal", "")
+      bg.setAttribute("data-close-modal", "");
+      var bg_text = el_root.createElement("button");
+      bg_text.setAttribute("data-close-modal", "");
+      bg_text.innerText = "Close modal";
+      bg_text.classList.add("sr-only");
+      wrap(bg_text, bg);
     }
-    el.closest("[data-modal-wrapper]").insertBefore(bg, el);
+    element.closest("[data-modal-wrapper]").insertBefore(bg, element);
 
   }
 
+  /**
+   * Removes a background from the provided element.
+   */
   var removeBackground = function (element) {
     element.previousElementSibling.remove();
 
@@ -286,7 +332,6 @@ var modal = (function (el_root) {
     return outer;
   }
 
-  // To do: try write this with a while loop
   var unwrap = function (outer) {
     while (outer.firstChild) {
       outer.parentNode.insertBefore(outer.firstChild, outer)
@@ -294,6 +339,20 @@ var modal = (function (el_root) {
     outer.remove();
   }
 
+  /**
+   * Helper function to check if an child element is contained within a parent element
+   */
+
+  var isDescendant = function (parent, child) {
+    var node = child.parentNode;
+    while (node != null) {
+      if (node == parent) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+    return false;
+  }
   /**
  * Helper function to get an element attribute, validated against a list of
  * allowable values, and a default value for when the attribute is empty or
@@ -348,11 +407,6 @@ var modal = (function (el_root) {
     };
   };
 
-  var _getModalConfig = function (element) {
-    var trigger = el_root.querySelector("[data-target-modal=" + element.id + "]");
-    return _getConfig(trigger);
-  };
-
   /**
    * Emit a custom event.
    */
@@ -384,13 +438,15 @@ var modal = (function (el_root) {
     hooks = custom_hooks;
   };
 
-  window.modals = {
+  
+  defineHooks({});
+  _bindEvents();
+  init();
+
+  return {
     trigger: toggleModal,
     close: close
   }
 
-  defineHooks({});
-  _bindEvents();
-  init();
 })(document)
 

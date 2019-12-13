@@ -33,7 +33,7 @@
   }
 
   *:focus {
-    outline: 1px solid blue;
+    outline: 4px solid blue;
   }
 
   /* Hide visually, but make accessible to screen readers. */
