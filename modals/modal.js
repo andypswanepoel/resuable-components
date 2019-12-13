@@ -444,7 +444,7 @@ var modal = (function (el_root) {
   init();
 
   return {
-    trigger: toggleModal,
+    open: toggleModal,
     close: close
   }
 
