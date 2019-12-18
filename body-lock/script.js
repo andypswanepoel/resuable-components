@@ -23,13 +23,13 @@ const bodyLock = (function(el_root) {
 
     const lock = function() {
         el_root.querySelector('html').style.paddingRight = w + "px";
-        el_root.querySelector("[data-component=isi]").style.paddingRight = w + "px";
+        el_root.querySelector("[data-component=isi][data-isi-fixed]").style.paddingRight = w + "px";
         el_root.querySelector('html').style.overflow = "hidden"
       }
       
       const unlock = function() {
         el_root.querySelector('html').style.paddingRight = ""
-        el_root.querySelector("[data-component=isi]").style.paddingRight = "";
+        el_root.querySelector("[data-component=isi][data-isi-fixed]").style.paddingRight = "";
         el_root.querySelector('html').style.overflow = ""
     }
 
