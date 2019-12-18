@@ -1,7 +1,3 @@
-// Possible extensions with data-attributes: 
-// - collapse on scroll
-// - collapse after initial expand
-
 var modal = (function (el_root) {
 
   var hooks = {};
@@ -9,17 +5,6 @@ var modal = (function (el_root) {
   var activeModals = [];
 
   var init = function () {
-
-    hooks.beforeInit();
-
-    // Set aria-describedby attribute by for the modal content
-    var descBy = el_root.createElement("p");
-    descBy.id = "modal-desc";
-    descBy.innerText = "Tab through the modal to access the content. Press the escape key to exit the modal. Clicking outside of the modal may close the modal.";
-    descBy.setAttribute("hidden", "");
-    el_root.body.appendChild(descBy);
-
-    hooks.afterInit();
   }
 
   var _bindEvents = function () {
@@ -44,6 +29,7 @@ var modal = (function (el_root) {
       var el_modal = activeModals[activeModals.length - 1];
       var config = _getConfig(activeTriggers[activeTriggers.length - 1]);
       close(el_modal, config);
+      activeTriggers.pop();
     }
   }
 
@@ -84,6 +70,7 @@ var modal = (function (el_root) {
 
   var toggleModal = function (el_click) {
     if (el_click.getAttribute("data-component") === "modal") {
+      hooks.beforeInit();
       activeTriggers.push(el_click);
       var config = _getConfig(activeTriggers[activeTriggers.length - 1]);
       if (el_click.hasAttribute("data-target")) {
@@ -151,7 +138,6 @@ var modal = (function (el_root) {
 
     // Set the aria-labelledby and aria-describedby attribute
     el_modal.setAttribute("aria-labelledby", modalLabel.id)
-    el_modal.setAttribute("aria-describedby", "modal-desc")
 
     // Create the modal wrapper
     // Add it before the modal
@@ -166,10 +152,12 @@ var modal = (function (el_root) {
     // Focus the modal
     wrap(el_modal, wrapper);
     _addClasses(wrapper, config.class_open);
-    addBackground(el_modal, config)
-    el_modal.focus();
+    addBackground(el_modal, config);
 
     currentModalSR();
+    
+    el_modal.focus();
+
 
     hooks.afterOpen(el_modal, config);
 
@@ -217,6 +205,16 @@ var modal = (function (el_root) {
       el_modal.remove();
     }
 
+    // If there are more than one modal open, run the function to search throught body element children
+    // If it is the last modal, then remove aria hidden from all body element children
+    if (activeModals.length > 0) {
+      currentModalSR();
+    } else {
+      el_root.querySelectorAll("body > *:not(script)").forEach(function (el_body_child) {
+        el_body_child.removeAttribute("aria-hidden")
+      })
+    }
+
     // If the modal was triggered by a hidden trigger, we need to determine where to send focus
     // Check the DOM for each of the main, role=main, or body. Whichever exists, send the focus there.
     if (activeTriggers[activeTriggers.length - 1].hasAttribute("hidden")) {
@@ -235,17 +233,8 @@ var modal = (function (el_root) {
     } else {
       activeTriggers[activeTriggers.length - 1].focus();
     }
-
-    // If there are more than one modal open, run the function to search throught body element children
-    // If it is the last modal, then remove aria hidden from all body element children
-    if (activeModals.length > 0) {
-      currentModalSR();
-    } else {
-      el_root.querySelectorAll("body > *:not(script)").forEach(function (el_body_child) {
-        el_body_child.removeAttribute("aria-hidden")
-      })
-    }
-
+    
+    
     hooks.afterClose(el_modal, config);
 
     emitEvent("modalClose", {

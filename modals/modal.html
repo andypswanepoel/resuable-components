@@ -13,7 +13,7 @@
     <header>Header</header>
     <main>
         <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil mollitia accusamus corrupti repudiandae, aliquid perferendis natus magni, officia molestiae sequi quisquam officiis similique, consectetur ea consequatur doloremque amet eos deleniti!Molestias aperiam quae reiciendis odit itaque repellendus corrupti, est fugiat culpa voluptates accusantium velit? Nobis earum ipsa voluptate assumenda unde, beatae eveniet aperiam iste accusamus atque doloremque distinctio nam quibusdam.</p>
-        <button data-component="modal" data-target="modal-id1">Modal Trigger</button>
+        <button data-component="modal" data-target="modal-id1" data-bg-close="false">Modal Trigger</button>
         <button data-component="modal" data-target="modal-id2">Modal Trigger</button><br><br><br>
         <button data-component="modal" data-target-content="my-id">Content Modal Trigger</button>
 
@@ -45,7 +45,7 @@
     <!-- <script>
         window.addEventListener("load", function() {
             setTimeout(() => {
-                modals.trigger(document.querySelector("[data-target=modal-id2]"));
+                modal.open(document.querySelector("[data-target=modal-id2]"));
             }, 2000);
         })
     </script> -->
