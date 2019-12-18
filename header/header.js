@@ -19,11 +19,11 @@
     var init = function () {
         var el_component = document.querySelector('[data-component="header"]'); // there should be only one header
         var config = _getConfig(el_component);
+        
+        
+        hooks.beforeInit();
         el_component.setAttribute("data-header-hidden", "false")
         document.body.style.paddingTop = el_component.offsetHeight + "px";
-
-
-        hooks.beforeInit();
         if (config.autohide === "true" && motionPref.matches === false) {
             addSmartHeaderListener(el_component, config);
             addKeyboardShow(el_component, config);
@@ -111,8 +111,8 @@
 
         hooks.beforeHide();
 
-        if(config.autohide_partial_id !== "") {
-            var partialCollapse = (document.getElementById(config.autohide_partial_id).getBoundingClientRect().top);
+        if(config.autohide_el !== "") {
+            var partialCollapse = (document.getElementById(config.autohide_el).getBoundingClientRect().top);
             el_component.style.transform = "translateY(-" + partialCollapse + "px)";
         }
         el_component.setAttribute("data-header-hidden", "true");
@@ -172,7 +172,7 @@
             autohide_amount: _getAttribute(el_component, "data-autohide-amount", {
                 default: "10",
             }),
-            autohide_partial_id: _getAttribute(el_component, "data-autohide-id", {
+            autohide_el: _getAttribute(el_component, "data-autohide-target", {
                 default: ""
             }),
             class_hidden: _getAttribute(el_component, "data-classnames-hidden", {
@@ -242,6 +242,5 @@
     // set custom hooks here
     defineHooks({});
     init();
-
 
 })(window, document);
