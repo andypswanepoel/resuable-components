@@ -55,7 +55,7 @@ The following configurations can be added as data attributes at the component le
 | `data-autohide-amount` | Any number | 10 	    |   The value provided determines how much the user needs to scroll before the header will hide/show.|
 | `data-autohide-target`| Any string | Close	    |   In the case of a partial collapse, this setting will contain the ID of the element which you'd like to collapse to. |
 | `data-classnames-hidden`    | Any string    | modal-open |   The class name(s) will be added when the header is hidden.|
-| `data-classnames-target` |html<br>body<br>Both| |  This value will determine which element will get the hidden classnames. Options are body, html, or both. By default, the classnames will be added to the header element.|
+| `data-classnames-target` |html<br>body<br>Both| |  This value will determine which element will get the hidden classnames. Options are body, html, or both. If the attribute is not used, the classnames will be added to the header element.|
 
 
 **Device Settings** 
