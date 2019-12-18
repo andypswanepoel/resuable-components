@@ -33,22 +33,12 @@ The header can be in the following states:
 What HTML should I add to the page:
 
 
-**Input HTML**
+**HTML**
 
 Minimum HTML needed for the header
 
 ```
 <header data-component="header">
-  // Header content
-</header>
-```
-
-**Output HTML**
-
-JS will add one data-attribute to the header element: [data-header-hidden].
-
-```
-<header data-component="header" data-header-hidden="false">
   // Header content
 </header>
 ```
@@ -68,11 +58,6 @@ JS will add one data-attribute to the header element: [data-header-hidden].
 [data-header-hidden="true"] {
     transform: translateY(-100%);
 }
-
-body {
-    padding-top: 165px; // We could set this with JS, but if a user has it disabled, some content may be hidden. Value will depend on the header height
-    position: relative;
-}
 ```
 
 ## Possible Configurations
@@ -82,8 +67,9 @@ body {
 The following configurations can be added as data attributes at the component level:
 - data-autohide: If set to "true", the header will hide when the user scrolls down the page. If set to "true", the header will persist on the page. 
 - data-autohide-amount: The value provided determines how much the user needs to scroll before the header will hide/show.
-- data-autohide-partial: If this is set to true, the header will collapse so that only the navigation area is visible. 
+- data-autohide-id: set the id of the element you want to collapse to. 
 - data-classnames-hidden: class names to be added to the header when it is hidden. Default: "is-hidden"
+- data-classnames-on-body: If set to true, the hidden class names will be added to the body element. Default is false.
 
 User settings:
 - prefers-reduced-motion: if the user has this set to true on their device, the header will not collapse.
@@ -93,7 +79,6 @@ User settings:
 
 The header element will emit the following custom events:
 
-  - `headerToggle` is emitted whebn the header's display state is toggled.
   - `headerHide` is emitted when the header is hidden.
   - `headerShow` is emitted when the header is shown.
 
@@ -109,12 +94,6 @@ Runs before the component is initiallized.
 
 **afterInit(el_component, config)**
 Runs after the component is initiallized.
-
-**beforeToggle(el_component, config)**
-Runs before the header's display state is toggled.
-
-**afterToggle(el_component, config)**
-Runs after the header's display state is toggled.
 
 **beforeHide(el_component, config)**
 Runs before the header is hidden.
