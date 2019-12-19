@@ -114,7 +114,6 @@ var modal = (function (el_root) {
     el_modal.setAttribute("role", "dialog");
     el_modal.setAttribute("aria-modal", "true");
     el_modal.setAttribute("tabindex", "0");
-    el_modal.setAttribute("data-modal", "")
     el_modal.removeAttribute("hidden");
 
     // If modal had been previously set to aria-hidden, remove that attribute
@@ -181,7 +180,6 @@ var modal = (function (el_root) {
     el_modal.removeAttribute("role");
     el_modal.removeAttribute("aria-modal");
     el_modal.removeAttribute("tabindex");
-    el_modal.removeAttribute("data-modal");
     el_modal.setAttribute("hidden", "");
     el_modal.style.zIndex = "";
 
@@ -277,16 +275,11 @@ var modal = (function (el_root) {
    */
   var addBackground = function (element, config) {
     var bg = el_root.createElement("div");
-    var currentZ;
-    if (activeModals.length === 1) {
-      currentZ = parseInt(config.z_index)
-    } else {
-      currentZ = parseInt(activeModals[0].style.zIndex);
-    }
-    bg.style.zIndex = currentZ + activeModals.indexOf(element);
+    var currentZ = parseInt(getComputedStyle(activeModals[0]).zIndex) + activeModals.indexOf(element);
+    element.style.zIndex = currentZ;
+    bg.style.zIndex = currentZ;
     bg.setAttribute("data-active-bg", "")
-    element.style.zIndex = currentZ + activeModals.indexOf(element);
-
+    
     // These lines make sure that only one background opacity is shown and they don't compound.
     el_root.querySelectorAll("[data-active-bg]").forEach(function (overlay) {
       overlay.style.opacity = "0";
@@ -389,9 +382,6 @@ var modal = (function (el_root) {
       }),
       class_open: _getAttribute(el_component, "data-classnames", {
         default: "modal-open"
-      }),
-      z_index: _getAttribute(el_component, "data-z-index", {
-        default: "100"
       })
     };
   };

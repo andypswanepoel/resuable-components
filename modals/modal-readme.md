@@ -181,7 +181,6 @@ Since modal triggers can be found anywhere within the content, configurations wi
 | `data-close-btn`     | true<br>false | true 	    |   This setting determines whether a close button will be added to the modal. |
 | `data-close-btn-text`| Any string | Close	    |   This setting determines the text content of the close button. It will accept an empty string if you wish to style it with a CSS background image.|
 | `data-classnames`    | Any string    | modal-open |   The class name(s) will be added to the modal wrapper when a modal is open. If more than one modal is opened, each modal will have its own wrapper containing it's own class name(s).|
-| `data-z-index` | Any number | 100      |  This value will act as the base value for the modal z-index. If more than one modal is opened at once, the z-index value will be incremented for each based on the value provided by the first triggered modal.|
 
 
 ## Emitted Events
